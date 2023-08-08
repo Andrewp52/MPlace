@@ -31,7 +31,7 @@ public class UsersLoginController {
     private final ExtendedDtoFactory<User, UserDto> dtoFactory;
 
     @PostMapping("/register")
-    public UserDto registerUser(@RequestPart UserDto dto){
+    public UserDto registerUser(@RequestBody UserDto dto){
         User newUser = entityFactory.getEntity(dto);
         User registered = userService.save(newUser);
         return dtoFactory.getDto(registered);

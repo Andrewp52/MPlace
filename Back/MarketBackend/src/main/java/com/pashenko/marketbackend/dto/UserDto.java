@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @SuperBuilder
 public class UserDto extends AbstractDto{
     private String username;

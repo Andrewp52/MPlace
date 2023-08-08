@@ -32,8 +32,9 @@ public class UserService extends AbstractService<User> implements UserDetailsSer
         if(((UsersRepository)repository).existsUserByUsername(entity.getUsername())){
             throw new EntityExistsException("Given username is already exists.");
         }
-        Role r = rolesRepository.getRoleByRole("USER");
+        Role r = rolesRepository.getRoleByRole("ROLE_USER");
         entity.setRoles(Set.of(r));
+        entity.setEnabled(true);        // TEMP (Confirm required)
         return super.save(entity);
     }
 

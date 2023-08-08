@@ -1,4 +1,4 @@
-package com.pashenko.marketbackend.configs;
+package com.pashenko.marketbackend.configs.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

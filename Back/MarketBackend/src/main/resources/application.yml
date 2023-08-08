@@ -5,28 +5,32 @@ server:
 
 logging:
     level:
-        org.hibernate: trace
+        org.hibernate: off
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: env, health
 
 spring:
+  config:
+    import: classpath:email.yml, classpath:database.yml, classpath:jwt.yml
+
   servlet:
     multipart:
      max-file-size: 100000000
 
-  datasource:
-    username: market
-    password: market
-    url: jdbc:mysql://localhost:3306/Market
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-      hibernate:
-          ddl-auto: update
-      show-sql: true
-      database: mysql
-
 filestore:
     root: "C:\\GitRepos\\Mplace\\Back\\MarketBackend\\files"
 
-jwt:
-  expirationMs: 18000000
-  secret: "FreeonlinetoolforHMACcomputationandcalculationwithcryptographichashfunctionsuch"
-  cookieName: "apiToken"
+
+
+
+
+
+
+

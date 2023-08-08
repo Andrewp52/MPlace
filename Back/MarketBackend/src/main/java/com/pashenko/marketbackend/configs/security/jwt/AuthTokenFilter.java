@@ -1,4 +1,4 @@
-package com.pashenko.marketbackend.configs.jwt;
+package com.pashenko.marketbackend.configs.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

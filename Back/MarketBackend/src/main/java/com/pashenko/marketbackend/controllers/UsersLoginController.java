@@ -1,6 +1,6 @@
 package com.pashenko.marketbackend.controllers;
 
-import com.pashenko.marketbackend.configs.jwt.JwtUtils;
+import com.pashenko.marketbackend.configs.security.jwt.JwtUtils;
 import com.pashenko.marketbackend.dto.LoginRequest;
 import com.pashenko.marketbackend.dto.UserDto;
 import com.pashenko.marketbackend.entities.User;

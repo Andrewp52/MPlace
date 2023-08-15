@@ -6,6 +6,7 @@ server:
 logging:
     level:
         org.hibernate: off
+        org.springframework.security: trace
 
 management:
   endpoint:
@@ -18,7 +19,7 @@ management:
 
 spring:
   config:
-    import: classpath:email.yml, classpath:database.yml, classpath:jwt.yml
+    import: classpath:database.yml, classpath:jwt.yml #, classpath:email.yml
 
   servlet:
     multipart:

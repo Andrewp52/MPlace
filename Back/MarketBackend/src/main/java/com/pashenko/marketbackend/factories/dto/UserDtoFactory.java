@@ -19,7 +19,7 @@ public class UserDtoFactory implements ExtendedDtoFactory<User, UserDto>{
     }
 
     @Override
-    public UserDto detExtendedDto(User entity) {
+    public UserDto getExtendedDto(User entity) {
         UserDto.UserDtoBuilder<?, ?> builder = preAssemble(entity);
         if(entity.getRoles() != null){
             builder.roles(

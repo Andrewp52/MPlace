@@ -1,10 +1,8 @@
 package com.pashenko.marketbackend.configs.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,7 +12,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -42,7 +45,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain getSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(req ->
+        return http
+                .cors(cors -> {
+                    cors.configurationSource(corsConfigurationSource());
+                })
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(req ->
                 req
                         .requestMatchers(PUBLIC_EP).permitAll()
                         .requestMatchers("/files/**").permitAll()   // TEMP !!!
@@ -50,11 +58,21 @@ public class WebSecurityConfig {
                         .requestMatchers(ADMIN_EP).hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
         )
-                .cors(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
+
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(this.authTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

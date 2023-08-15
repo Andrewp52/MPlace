@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
@@ -22,8 +22,8 @@ public abstract class AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @CreatedDate
-    protected Date created;
+    protected LocalDateTime created;
     @LastModifiedDate
-    protected Date modified;
+    protected LocalDateTime modified;
 
 }

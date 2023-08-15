@@ -52,6 +52,6 @@ public class UsersLoginController {
                 .map(GrantedAuthority::getAuthority).toList();
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(dtoFactory.detExtendedDto(userDetails));
+                .body(dtoFactory.getExtendedDto(userDetails));
     }
 }

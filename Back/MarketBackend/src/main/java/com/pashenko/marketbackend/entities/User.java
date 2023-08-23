@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +39,10 @@ public class User extends AbstractEntity implements UserDetails {
     )
     private Set<Role> roles;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private SignupToken signupToken;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

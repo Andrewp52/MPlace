@@ -1,4 +1,4 @@
-package com.pashenko.marketbackend;
+package com.pashenko.marketbackend.userprofileactions;
 
 import com.pashenko.marketbackend.dto.LoginRequest;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +16,7 @@ import java.util.List;
  * Primary authentication test with existing user (no mocks)
  */
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PrimaryAuthenticationTest {
     private final String LOGIN_URL = "/users/signin";
     private final String TOKEN_PREFIX = "apiToken";
@@ -27,19 +27,19 @@ public class PrimaryAuthenticationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private LoginRequest correct = new LoginRequest("user", "user");
-    private LoginRequest incorrect = new LoginRequest("user", "u");
+    private final LoginRequest correct = new LoginRequest("user", "user");
+    private final LoginRequest incorrect = new LoginRequest("user", "u");
 
 
     @Test
-    public void authRequestWithCorrectCredsWillSucceedWith200() throws Exception {
+    public void authRequestWithCorrectCredsWillSucceedWith200() {
         ResponseEntity<String> result = restTemplate
                 .postForEntity(LOGIN_URL, correct, String.class);
         Assertions.assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
-    public void authRequestWithCorrectCredsWillSetCookieWithJwt() throws Exception {
+    public void authRequestWithCorrectCredsWillSetCookieWithJwt() {
         ResponseEntity<String> result = restTemplate
                 .postForEntity(LOGIN_URL, correct, String.class);
         List<String> cookies = result.getHeaders().get("Set-Cookie");
@@ -48,7 +48,7 @@ public class PrimaryAuthenticationTest {
     }
 
     @Test
-    public void authRequestWithIncorrectCredsWillFailedWith403() throws Exception {
+    public void authRequestWithIncorrectCredsWillFailedWith403() {
         ResponseEntity<String> result = restTemplate
                 .postForEntity(LOGIN_URL, incorrect, String.class);
         Assertions.assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());

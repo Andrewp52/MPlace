@@ -1,8 +1,10 @@
 package com.pashenko.marketbackend.userprofileactions;
 
+import com.pashenko.marketbackend.AbstractSpringBootTest;
 import com.pashenko.marketbackend.dto.EmailMessage;
 import com.pashenko.marketbackend.dto.UserDto;
 import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.repositories.SignupTokensRepository;
 import com.pashenko.marketbackend.repositories.UsersRepository;
 import com.pashenko.marketbackend.services.email.MailSender;
 import org.junit.Before;
@@ -12,7 +14,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,8 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserSignupProcedureTest {
-    private final String SIGNUP_URL = "/users/signup";
+public class UserSignupProcedureTest extends AbstractSpringBootTest {
+
     private final UserDto signupDto = UserDto.builder().username("test@test.test").password("test").build();
 
     @MockBean
@@ -31,6 +31,8 @@ public class UserSignupProcedureTest {
     @MockBean
     public UsersRepository usersRepository;
 
+    @MockBean
+    public SignupTokensRepository signupTokensRepository;
     @Captor
     ArgumentCaptor<EmailMessage> emailCaptor;
     User savedUser;

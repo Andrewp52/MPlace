@@ -7,6 +7,9 @@ signup:
   wipe-interval: 30
   token-timeout-mins: 30
 
+scheduling:
+  enabled: true
+
 server:
     port: 8080
     servlet:
@@ -27,6 +30,9 @@ management:
         include: env, health
 
 spring:
+  profiles:
+    active: "dev"
+
   config:
     import: classpath:database.yml, classpath:jwt.yml #, classpath:email.yml
 

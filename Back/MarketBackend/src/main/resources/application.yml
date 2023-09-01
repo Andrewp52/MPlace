@@ -42,6 +42,8 @@ spring:
 
 filestore:
     root: "C:\\GitRepos\\Mplace\\Back\\MarketBackend\\files"
+    temp: "C:\\GitRepos\\Mplace\\Back\\MarketBackend\\files\\temp"
+    hashed: "C:\\GitRepos\\Mplace\\Back\\MarketBackend\\files\\hashed"
 
 
 

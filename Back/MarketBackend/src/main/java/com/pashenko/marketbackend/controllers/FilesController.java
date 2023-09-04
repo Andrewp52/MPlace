@@ -34,7 +34,7 @@ public class FilesController {
     ) {
         try {
             FileInfo info = fileStoreService.getFileInfo(user, path, file);
-            InputStreamResource isr = fileStoreService.getAsStreamResource(user, path, file);
+            InputStreamResource isr = new InputStreamResource(fileStoreService.getAsStream(user, path, file));
             return ResponseEntity.ok()
                     .contentLength(info.getSize())
                     .contentType(MediaType.valueOf(info.getContentType()))
@@ -52,7 +52,8 @@ public class FilesController {
             MultipartFile file
     ) {
         try {
-            return ResponseEntity.ok().body(fileStoreService.store("test", path, file));   //TODO: USE AUTHENTICATED USER
+            String username = "test";
+            return ResponseEntity.ok().body(fileStoreService.store(username, path, file));   //TODO: USE AUTHENTICATED USER
         } catch (FileNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(e.getMessage());        //TODO: USE OWN RUNTIME EXCEPTION
         } catch (IOException e){
@@ -66,7 +67,8 @@ public class FilesController {
             @PathVariable(name = "file") String file
     ) {
         try {
-            fileStoreService.delete("test", path, file);                                //TODO: USE AUTHENTICATED USER
+            String username = "test";
+            fileStoreService.delete(username, path, file);                                //TODO: USE AUTHENTICATED USER
             return ResponseEntity.ok().build();
         } catch (FileNotFoundException e) {                                                      //TODO: USE OWN RUNTIME EXCEPTION
             return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(e.getMessage());

@@ -1,24 +1,22 @@
 package com.pashenko.marketbackend.services.filestore.storage;
 
-import com.pashenko.marketbackend.dto.StoredFileDto;
 import com.pashenko.marketbackend.services.filestore.FileInfo;
-import com.pashenko.marketbackend.services.filestore.data.FileStoreDataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 public class HashedFileStorageService implements FileStoreService {
+    private static final int COUNTER_TYPE_LENGTH = 4;
     @Value("${filestore.root}")
     private String ROOT;
     @Value("${filestore.hashed}")
@@ -26,7 +24,6 @@ public class HashedFileStorageService implements FileStoreService {
     @Value("${filestore.temp}")
     private String TEMP_FILES;
     private final FileHashCalculator fileHashCalculator;
-    private final FileStoreDataService fileStoreDataService;
     @Override
     public String store(String userName, String path, MultipartFile file) throws IOException {
         Path linkPath = Path.of(ROOT, userName, path, file.getOriginalFilename());
@@ -39,9 +36,9 @@ public class HashedFileStorageService implements FileStoreService {
     }
 
     @Override
-    public InputStreamResource getAsStreamResource(String userName, String path, String filePath) throws IOException {
+    public InputStream getAsStream(String userName, String path, String filePath) throws IOException {
         Path p = Path.of(ROOT, userName, path, filePath);
-        return new InputStreamResource(Files.newInputStream(p));
+        return Files.newInputStream(p);
     }
 
     @Override
@@ -61,7 +58,7 @@ public class HashedFileStorageService implements FileStoreService {
         if(!Files.exists(filePath)){
             throw new FileNotFoundException("File %s/%s/%s not found".formatted(user, path, file));
         }
-        return new FileInfo(Files.size(filePath), Files.probeContentType(filePath));
+        return new FileInfo(Files.size(filePath) - COUNTER_TYPE_LENGTH, Files.probeContentType(filePath));
     }
 
     private Path storeTemp(MultipartFile file) throws IOException {
@@ -75,27 +72,57 @@ public class HashedFileStorageService implements FileStoreService {
         Path hashedFile = Path.of(HASHED_FILES, hash + getExtension(fileName));
         if(!Files.exists(hashedFile)){
             Files.move(temp, hashedFile, StandardCopyOption.ATOMIC_MOVE);
-            fileStoreDataService.saveNewName(hashedFile.getFileName().toString());
+            putNewCounterInFile(hashedFile);
         } else {
             Files.delete(temp);
-            fileStoreDataService.increaseCounterFor(hashedFile.getFileName().toString());
+            changeCounterInFile(hashedFile, c -> c + 1);
         }
         Files.createSymbolicLink(linkPath, hashedFile);
     }
 
     @Async
     void afterSymLinkDelete(Path hashed) throws IOException {
-        String hashedName = hashed.getFileName().toString();
-        StoredFileDto sf = fileStoreDataService.getFileInfo(hashedName);
-        if(sf.getLinksCount() > 1){
-            fileStoreDataService.decreaseCounter(hashedName);
+        if(getCountFromFile(hashed) > 1){
+            changeCounterInFile(hashed, c -> c - 1);
         } else {
             Files.delete(hashed);
-            fileStoreDataService.deleteByName(sf.getName());
         }
     }
     private String getExtension(String fileName){
         return !fileName.contains(".") ? "" :
                 fileName.substring(fileName.lastIndexOf(".") - 1);
     }
+
+    private int getCountFromFile(Path file){
+        try (RandomAccessFile raf = new RandomAccessFile(file.toString(), "r")){
+            raf.seek(raf.length() - COUNTER_TYPE_LENGTH);
+            return raf.readInt();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void putNewCounterInFile(Path file){
+        try (RandomAccessFile raf = new RandomAccessFile(file.toString(), "rw")){
+            raf.seek(raf.length());
+            raf.writeInt(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void changeCounterInFile(Path file, Function<Integer, Integer> countAction){
+        try (RandomAccessFile raf = new RandomAccessFile(file.toString(), "rw")){
+            long seekPointer = raf.length() - COUNTER_TYPE_LENGTH;
+            raf.seek(seekPointer);
+            int count = raf.readInt();
+            raf.seek(seekPointer);
+            raf.writeInt(countAction.apply(count));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
 }

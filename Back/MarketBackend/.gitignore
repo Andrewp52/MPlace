@@ -35,3 +35,4 @@ build/
 /src/main/resources/email.yml
 /src/main/resources/database.yml
 /src/main/resources/jwt.yml
+/test_files/

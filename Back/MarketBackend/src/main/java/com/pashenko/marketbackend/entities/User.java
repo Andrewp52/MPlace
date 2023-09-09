@@ -39,7 +39,7 @@ public class User extends AbstractEntity implements UserDetails {
     )
     private Set<Role> roles;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private SignupToken signupToken;

@@ -27,7 +27,7 @@ public class SignupToken {
     @Column(name = "token")
     private String tokenString;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "user_id")
     private User user;

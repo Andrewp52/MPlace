@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserSecurityService {
     public User getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication instanceof AnonymousAuthenticationToken? null : (User) authentication;
+        return authentication instanceof AnonymousAuthenticationToken? null : (User) authentication.getPrincipal();
     }
+
 }

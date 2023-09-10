@@ -6,19 +6,20 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SaveFilesTest extends AbstractHashedStorageTest{
-
-
     private final MultipartFile file = new MockMultipartFile(
             testFile.getFileName().toString(),
             testFile.getFileName().toString(),
@@ -50,21 +51,18 @@ public class SaveFilesTest extends AbstractHashedStorageTest{
 
     @Test
     @Order(30)
-    void hashedFileContentExceptCounterIsTheSameAsTestFile(){
+    void hashedFileContentExceptCounterIsTheSameAsTestFile() throws IOException {
         Path hashedFile = hashed.resolve(hashedName);
         try(
                 RandomAccessFile orRaf = new RandomAccessFile(testFile.toFile(), "r");
                 RandomAccessFile hRaf = new RandomAccessFile(hashedFile.toFile(), "r")
         ){
             byte[] orBytes = new byte[(int) orRaf.length()];                // Original file bytes
-            byte[] hBytes = new byte[(int) hRaf.length() - Integer.BYTES];  // Except counter
+            byte[] hBytes = new byte[(int) hRaf.length() - Integer.BYTES];  // Hashed file bytes (Except counter)
             orRaf.read(orBytes);
             hRaf.read(hBytes, 0, (int) hRaf.length() - Integer.BYTES);
 
             assertArrayEquals(orBytes, hBytes);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -76,9 +74,19 @@ public class SaveFilesTest extends AbstractHashedStorageTest{
 
     @Test
     @Order(50)
-    void storeExistingFileByAnotherUserCreatesSymLinkAndIncreasesCounterInHashedFile() {
-
+    void storeExistingFileByAnotherUserCreatesSymLinkAndIncreasesCounterInHashedFile() throws IOException {
+        Path hashedFile = hashed.resolve(hashedName);
+        store.store(username2, folder, file);
+        assertEquals(2, ((HashedFileStorageService) store).getCounterFromFile(hashedFile));
+        assertTrue(Files.exists(userspace.resolve(username2).resolve(folder).resolve(testFile.getFileName().toString())));
     }
 
+    @Test
+    @Order(60)
+    void tempDirectoryIsEmptyAfterStoring() throws IOException {
+        try (Stream<Path> dirList = Files.list(temp)){
+            assertEquals(0, dirList.count());
+        }
+    }
 
 }

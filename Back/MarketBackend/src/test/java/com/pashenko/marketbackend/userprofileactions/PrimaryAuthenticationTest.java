@@ -5,8 +5,8 @@ import com.pashenko.marketbackend.dto.LoginRequest;
 import com.pashenko.marketbackend.entities.Role;
 import com.pashenko.marketbackend.entities.User;
 import com.pashenko.marketbackend.repositories.UsersRepository;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -36,9 +36,9 @@ public class PrimaryAuthenticationTest extends AbstractSpringBootTest {
     private TestRestTemplate restTemplate;
     @MockBean
     public UsersRepository usersRepository;
-    @Before
-    public void setup(){
-        MockitoAnnotations.openMocks(this);
+    @BeforeAll
+    public static void setup(){
+        MockitoAnnotations.openMocks(PrimaryAuthenticationTest.class);
     }
 
     @BeforeEach

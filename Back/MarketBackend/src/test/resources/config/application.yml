@@ -6,3 +6,6 @@ spring:
     password: sa
 scheduling:
   enabled: false
+
+filestore:
+  root: "C:\\GitRepos\\Mplace\\Back\\MarketBackend\\test_files"

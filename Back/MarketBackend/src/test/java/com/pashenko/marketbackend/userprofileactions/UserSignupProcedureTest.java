@@ -7,7 +7,7 @@ import com.pashenko.marketbackend.entities.User;
 import com.pashenko.marketbackend.repositories.SignupTokensRepository;
 import com.pashenko.marketbackend.repositories.UsersRepository;
 import com.pashenko.marketbackend.services.email.MailSender;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -37,9 +37,9 @@ public class UserSignupProcedureTest extends AbstractSpringBootTest {
     ArgumentCaptor<EmailMessage> emailCaptor;
     User savedUser;
 
-    @Before
-    public void setup(){
-        MockitoAnnotations.openMocks(this);
+    @BeforeAll
+    public static void setup(){
+        MockitoAnnotations.openMocks(UserSignupProcedureTest.class);
     }
 
     @BeforeEach

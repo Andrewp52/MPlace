@@ -31,11 +31,13 @@ public class AbstractHashedStorageTest extends AbstractStorageTest {
     @BeforeAll
     static void setup() throws IOException {
         store = new HashedFileStorageService(hashCalc, root.toString());
-        Files.createFile(testFile.toAbsolutePath());
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(testFile.toAbsolutePath().toFile()))){
-            bw.write(testContent);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!Files.exists(testFile)){
+            Files.createFile(testFile.toAbsolutePath());
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(testFile.toAbsolutePath().toFile()))){
+                bw.write(testContent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

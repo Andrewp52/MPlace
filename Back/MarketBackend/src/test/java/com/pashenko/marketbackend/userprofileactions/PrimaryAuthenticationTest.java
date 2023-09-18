@@ -2,8 +2,8 @@ package com.pashenko.marketbackend.userprofileactions;
 
 import com.pashenko.marketbackend.AbstractSpringBootTest;
 import com.pashenko.marketbackend.dto.LoginRequest;
-import com.pashenko.marketbackend.entities.Role;
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.Role;
+import com.pashenko.marketbackend.entities.userdata.User;
 import com.pashenko.marketbackend.repositories.UsersRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

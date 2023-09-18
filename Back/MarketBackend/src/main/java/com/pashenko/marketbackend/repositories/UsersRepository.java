@@ -1,6 +1,6 @@
 package com.pashenko.marketbackend.repositories;
 
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @SuperBuilder
@@ -25,4 +26,16 @@ public abstract class AbstractEntity {
     @LastModifiedDate
     protected LocalDateTime modified;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractEntity that = (AbstractEntity) o;
+        return id.equals(that.id) && created.equals(that.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, created);
+    }
 }

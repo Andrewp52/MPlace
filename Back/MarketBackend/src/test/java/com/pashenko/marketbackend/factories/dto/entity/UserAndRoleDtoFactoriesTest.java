@@ -2,9 +2,8 @@ package com.pashenko.marketbackend.factories.dto.entity;
 
 import com.pashenko.marketbackend.dto.RoleDto;
 import com.pashenko.marketbackend.dto.UserDto;
-import com.pashenko.marketbackend.entities.Role;
-import com.pashenko.marketbackend.entities.User;
-import com.pashenko.marketbackend.factories.dto.ExtendedDtoFactory;
+import com.pashenko.marketbackend.entities.userdata.Role;
+import com.pashenko.marketbackend.entities.userdata.User;
 import com.pashenko.marketbackend.factories.dto.RoleDtoFactory;
 import com.pashenko.marketbackend.factories.dto.UserDtoFactory;
 import org.junit.jupiter.api.BeforeAll;

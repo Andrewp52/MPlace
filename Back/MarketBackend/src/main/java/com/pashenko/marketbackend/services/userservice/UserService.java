@@ -3,9 +3,9 @@ package com.pashenko.marketbackend.services.userservice;
 
 import com.pashenko.marketbackend.dto.AbstractDto;
 import com.pashenko.marketbackend.dto.UserDto;
-import com.pashenko.marketbackend.entities.Role;
-import com.pashenko.marketbackend.entities.SignupToken;
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.Role;
+import com.pashenko.marketbackend.entities.userdata.SignupToken;
+import com.pashenko.marketbackend.entities.userdata.User;
 
 import com.pashenko.marketbackend.repositories.RolesRepository;
 import com.pashenko.marketbackend.repositories.UsersRepository;

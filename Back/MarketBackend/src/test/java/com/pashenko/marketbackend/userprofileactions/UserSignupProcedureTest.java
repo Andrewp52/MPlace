@@ -3,7 +3,7 @@ package com.pashenko.marketbackend.userprofileactions;
 import com.pashenko.marketbackend.AbstractSpringBootTest;
 import com.pashenko.marketbackend.dto.EmailMessage;
 import com.pashenko.marketbackend.dto.UserDto;
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.User;
 import com.pashenko.marketbackend.repositories.SignupTokensRepository;
 import com.pashenko.marketbackend.repositories.UsersRepository;
 import com.pashenko.marketbackend.services.email.MailSender;

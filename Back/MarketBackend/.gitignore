@@ -36,3 +36,4 @@ build/
 /src/main/resources/database.yml
 /src/main/resources/jwt.yml
 /test_files/
+/src/main/resources/serverprops.yml

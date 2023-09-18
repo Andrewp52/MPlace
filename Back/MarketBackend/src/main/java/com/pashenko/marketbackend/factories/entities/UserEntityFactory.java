@@ -1,7 +1,7 @@
 package com.pashenko.marketbackend.factories.entities;
 
 import com.pashenko.marketbackend.dto.UserDto;
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

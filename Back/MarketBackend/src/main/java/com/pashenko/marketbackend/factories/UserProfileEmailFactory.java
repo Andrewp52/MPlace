@@ -1,7 +1,7 @@
 package com.pashenko.marketbackend.factories;
 
 import com.pashenko.marketbackend.dto.EmailMessage;
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

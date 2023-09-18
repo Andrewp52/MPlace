@@ -2,8 +2,8 @@ package com.pashenko.marketbackend.factories.dto;
 
 import com.pashenko.marketbackend.dto.RoleDto;
 import com.pashenko.marketbackend.dto.UserDto;
-import com.pashenko.marketbackend.entities.Role;
-import com.pashenko.marketbackend.entities.User;
+import com.pashenko.marketbackend.entities.userdata.Role;
+import com.pashenko.marketbackend.entities.userdata.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 
 @RequiredArgsConstructor
-public abstract class MailService {
-    private static final Logger logger = LoggerFactory.getLogger(MailService.class);
+public abstract class AbstractMailService {
+    private static final Logger logger = LoggerFactory.getLogger(AbstractMailService.class);
     private final MailSender mailSender;
     protected void sendMail(EmailMessage message){
         mailSender.send(message);

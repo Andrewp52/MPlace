@@ -1,6 +1,6 @@
 package com.pashenko.marketbackend.repositories;
 
-import com.pashenko.marketbackend.entities.SignupToken;
+import com.pashenko.marketbackend.entities.userdata.SignupToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 service:
   name: "My Marketplace"
   email: "aaa@ss.dd"
-  url: "http://localhost:8080"
+  url: "https://localhost:8443"
 
 signup:
   wipe-interval: 30
@@ -9,11 +9,6 @@ signup:
 
 scheduling:
   enabled: true
-
-server:
-    port: 8080
-    servlet:
-        context-path: "/api/v1"
 
 logging:
     level:
@@ -34,7 +29,7 @@ spring:
     active: "dev"
 
   config:
-    import: classpath:database.yml, classpath:jwt.yml #, classpath:email.yml
+    import: classpath:database.yml, classpath:jwt.yml, classpath:serverprops.yml #, classpath:email.yml
 
   servlet:
     multipart:

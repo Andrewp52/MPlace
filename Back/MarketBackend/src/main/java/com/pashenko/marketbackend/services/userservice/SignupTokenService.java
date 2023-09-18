@@ -1,6 +1,6 @@
 package com.pashenko.marketbackend.services.userservice;
 
-import com.pashenko.marketbackend.entities.SignupToken;
+import com.pashenko.marketbackend.entities.userdata.SignupToken;
 import com.pashenko.marketbackend.repositories.SignupTokensRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
